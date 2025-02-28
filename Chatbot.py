@@ -1,30 +1,31 @@
+
+
 import streamlit as st
 import google.generativeai as genai
 
-API_KEY = "AIzaSyBIPHCF1XbGvD5qxcnUL3ErUBWnGOOvQXM"
+API_KEY = "AIzaSyBsq5Kd5nJgx2fejR77NT8v5Lk3PK4gbH8"
 
 genai.configure(api_key=API_KEY)
-model=genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 if "chat" not in st.session_state:
-  st.session_state.chat = model.start_chat(history=[])
-  
-st.title("🤖 Chatbot - Your AI Friend")
-st.write("HI! I am Fifi. How can I Assist you?")
+    st.session_state.chat = model.start_chat(history=[])
 
+st.title("🤖 Chatbot - Your AI Assistant")
+st.write("Hi! I am Fifi. How san I assist you?")
 if "messages" not in st.session_state:
-  st.session_state.messages=[]
+    st.session_state.messages = []
 
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-      
+
 if prompt := st.chat_input("Say something..."):
     # Add user message to chat history
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
-      
+
     response = st.session_state.chat.send_message(prompt)
 
     st.session_state.messages.append({"role": "assistant", "content": response.text})
